@@ -1,16 +1,86 @@
-# rm_characters_test_task
+# Персонажи Рика и Морти
 
-A new Flutter project.
+Приложение "Персонажи Рика и Морти" — это приложение на Flutter, которое загружает и отображает данные о персонажах из API Рика и Морти. Пользователи могут просматривать список персонажей, добавлять их в избранное и сортировать избранных персонажей по имени, статусу или виду. Приложение поддерживает переключение между светлой и тёмной темами и использует базу данных Isar для сохранения избранных персонажей. Интерфейс включает единую панель AppBar для всех экранов с навигацией между списком персонажей и экраном избранного.
 
-## Getting Started
+Инструкции по сборке и запуску
+Требования:
+* Flutter SDK: Версия 3.35.2
+* Dart: Версия 3.9.0
+* Совместимая IDE (например, VS Code, Android Studio)
+* Эмулятор или физическое устройство для тестирования
 
-This project is a starting point for a Flutter application.
+## Настройка
+- Клонирование репозитория: <br>
+  git clone <URL-репозитория>
+- Установка зависимостей: <br>
+  Убедитесь, что Flutter установлен, затем выполните: 
+     - flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+Генерация кода:
+Проект использует freezed и isar_generator для генерации кода. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Выполните: <br>
+flutter pub run build_runner build --delete-conflicting-outputs
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+Сборка и запуск:
+Подключите устройство или запустите эмулятор, затем выполните:<br>
+flutter run
+
+Для отладочной сборки с горячей перезагрузкой:
+flutter run --debug
+
+- Очистка сборки (при необходимости):<br>
+  Если возникают проблемы со сборкой, очистите проект и пересоберите:
+    - flutter clean
+    - flutter pub get
+    - flutter pub run build_runner build --delete-conflicting-output
+    - flutter run
+
+## Примечания
+Для начальной загрузки данных из API (https://rickandmortyapi.com/api) требуется активное интернет-соединение.
+Приложение кэширует персонажей в базе данных Isar, что позволяет отображать данные оффлайн при последующих запусках, если данные уже сохранены.
+Горячая перезагрузка поддерживается, но избегайте динамического переопределения ProviderScope для предотвращения ошибок.
+
+
+### Зависимости, указанные в pubspec.yaml:
+dependencies:
+  flutter:
+    sdk: flutter
+    
+  cupertino_icons: ^1.0.8
+  dio: ^5.4.0
+  flutter_riverpod: ^2.4.9
+  equatable: ^2.0.5
+  path: ^1.8.3
+  isar: ^3.1.0
+  isar_flutter_libs: ^3.1.0
+
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  freezed: ^2.4.4
+  json_serializable: ^6.8.0
+  isar_generator: 3.1.0
+
+
+### Описание ключевых зависимостей
+ - dio: Используется для HTTP-запросов к API Рика и Морти.
+ - flutter_riverpod: Управляет состоянием и внедрением зависимостей.
+ - isar: Обеспечивает локальное хранилище для персонажей и избранного.
+ - freezed: Генерирует неизменяемые классы данных для Character и Location.
+ - build_runner: Требуется для генерации кода с использованием freezed и isar_generator.
+
+### Устранение неполадок
+- "Нет персонажей" при первом запуске: Убедитесь, что есть интернет-соединение, и выполните обновление (pull-to-refresh) или нажмите кнопку "Повторить". .
+- Ошибка переопределения ProviderScope: Убедитесь, что в main.dart Isar инициализируется один раз, а ProviderScope использует статические переопределения.
+- Ошибки сборки: Выполните flutter clean и убедитесь, что все зависимости установлены с помощью flutter pub get.
+
+Для дополнительной помощи проверьте вывод консоли или предоставьте логи ошибок.
